@@ -41,6 +41,7 @@ export class NewslistComponent implements OnInit {
 pageChanged(event:any){
   if(this.AllArticlesServices.type == 'top'){
     this.TopArticlesServices.updatePage(event);
+    this.search= this.route.snapshot.params['search'];
   this.page = event;
   this.router.navigate(['toparticles', this.search, this.sort,this.page, (this.page-1)*10]);
     // if (this.search == '') {

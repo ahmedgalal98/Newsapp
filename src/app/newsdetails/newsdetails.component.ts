@@ -8,7 +8,7 @@ import {ToparticleService } from '../service/toparticle.service';
   templateUrl: './newsdetails.component.html',
   styleUrls: ['./newsdetails.component.css'],
 })
-export class NewsdetailsComponent implements OnInit {
+export class NewsdetailsComponent implements  AfterViewInit {
 
 
 
@@ -23,19 +23,36 @@ export class NewsdetailsComponent implements OnInit {
     private route: ActivatedRoute
   ) {}
 
-  ngOnInit(): void {
+  // ngOnInit(): void {
+  //   this.route.params
+  //   .subscribe(
+  //     (params: Params) => {
+  //       this.id = +params['id'];
+  //       if(this.AllArticlesServices.type == 'top'){
+  //       this.article = this.TopArticlesServices.Articles[this.id];
+  //       }else{
+  //       this.article = this.AllArticlesServices.Articles[this.id];
+  //       }
+  //       console.log(this.article);
+  //     }
+  //     );
+  // }
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+     this.route.params
+     .subscribe(
+       (params: Params) => {
+         this.id = +params['id'];
+         if(this.AllArticlesServices.type == 'top'){
+           this.article = this.TopArticlesServices.Articles[this.id];
+         }else{
+         this.article = this.AllArticlesServices.Articles[this.id];
+         }
+         console.log(this.article);
+       }
+       );
+    },500);
+   }
 
-    this.route.params
-    .subscribe(
-      (params: Params) => {
-        this.id = +params['id'];
-        if(this.AllArticlesServices.type == 'top'){
-          this.article = this.TopArticlesServices.Articles[this.id];
-        }else{
-        this.article = this.AllArticlesServices.Articles[this.id];
-        }
-        console.log(this.article);
-      }
-      );
-  }
+
 }

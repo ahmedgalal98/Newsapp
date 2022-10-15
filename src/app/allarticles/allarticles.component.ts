@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-
 import { AllarticleService } from '../service/allarticle.service';
 
 @Component({
@@ -29,7 +28,7 @@ export class AllarticlesComponent implements OnInit {
       this.sort = params['sort'];
       this.page = +params['page'];
       this.AllArticlesServices.updatePage(this.page);
-      console.log(this.search);
+      // console.log(this.search);
     });
 
     this.AllArticlesServices.getAllArticle().subscribe((result) => {

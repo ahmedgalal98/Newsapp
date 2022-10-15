@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { AllarticleService } from '../service/allarticle.service';
 import { ToparticleService } from '../service/toparticle.service';
 
 @Component({
@@ -8,7 +9,6 @@ import { ToparticleService } from '../service/toparticle.service';
   styleUrls: ['./toparticles.component.css']
 })
 export class ToparticlesComponent implements OnInit {
-
   resultData: any = [];
   AllArticles: any = [];
 
@@ -18,26 +18,29 @@ export class ToparticlesComponent implements OnInit {
 
   constructor(
     private topArticleService:ToparticleService,
+    private AllArticlesServices: AllarticleService,
     private route: ActivatedRoute,
     private router: Router
   ) {}
 
 
   ngOnInit(): void {
+
+    this.AllArticlesServices.type = "top";
     this.route.params.subscribe((params: Params) => {
       this.search = params['search'];
       this.sort = params['sort'];
       this.page = +params['page'];
       this.topArticleService.updatePage(this.page);
-      console.log(this.search);
+      // console.log(this.search);
     });
 
     this.topArticleService.getAllArticle().subscribe((result) => {
       this.resultData = result;
       if (this.search == 'a') {
         this.AllArticles = this.resultData.articles;
-        console.log(this.AllArticles);
         this.search = '';
+        // console.log(this.AllArticles);
       } else {
         const regex = new RegExp(`${this.search}`, 'gi');
         this.AllArticles = this.resultData.articles.filter(
