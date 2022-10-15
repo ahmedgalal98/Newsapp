@@ -15,6 +15,7 @@ export class ToparticlesComponent implements OnInit {
   search = '';
   sort = '';
   page = 1;
+  noresult = false;
 
   constructor(
     private topArticleService:ToparticleService,
@@ -77,6 +78,7 @@ export class ToparticlesComponent implements OnInit {
     this.page = 1;
     if(this.search == ''){
     this.router.navigate(['toparticles', "a", 'nosort',this.page, '0']);
+    this.search= ''
     }else{
       this.router.navigate(['toparticles', this.search, 'nosort',this.page, '0']);
     }
@@ -91,13 +93,19 @@ export class ToparticlesComponent implements OnInit {
         const regex = new RegExp(`${this.search}`, 'gi');
         this.AllArticles = this.resultData.articles.filter(
           (item: any) => {
-            return item.title.match(regex) || item.author.match(regex) || item.publishedAt.match(regex);
+            return item.title.match(regex) || item.publishedAt.match(regex);
           }
         );
       }
-
       this.topArticleService.updateArticle(this.AllArticles);
-      console.log(this.AllArticles);
+
+      if (this.AllArticles.length == 0) {
+        this.noresult = true;
+        this.AllArticlesServices.noresult = true;
+      }else{
+        this.noresult = false;
+        this.AllArticlesServices.noresult = false;
+      }
     });
   }
 

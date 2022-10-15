@@ -8,6 +8,7 @@ export class AllarticleService {
   Articles: any;
   page = 1;
   type = "all";
+  noresult = false;
 
 
 

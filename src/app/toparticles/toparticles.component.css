@@ -18,3 +18,8 @@
 .list{
   margin-left: 20px;
 }
+
+.noresult{
+  display: flex;
+  justify-content: center;
+}

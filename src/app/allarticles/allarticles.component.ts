@@ -14,6 +14,8 @@ export class AllarticlesComponent implements OnInit {
   search = '';
   sort = '';
   page = 1;
+  noresult: boolean = false;
+
 
   constructor(
     private AllArticlesServices: AllarticleService,
@@ -81,7 +83,7 @@ export class AllarticlesComponent implements OnInit {
       this.resultData = result;
       if (this.search == '') {
         this.AllArticles = this.resultData.articles;
-        console.log(this.AllArticles);
+        // console.log(this.AllArticles);
         // this.AllArticlesServices.Articles = this.AllArticles;
       } else {
         const regex = new RegExp(`${this.search}`, 'gi');
@@ -91,9 +93,15 @@ export class AllarticlesComponent implements OnInit {
           }
         );
       }
-
+      if (this.AllArticles.length == 0) {
+        this.noresult = true;
+        this.AllArticlesServices.noresult = true;
+      }else{
+        this.noresult = false;
+        this.AllArticlesServices.noresult = false;
+      }
       this.AllArticlesServices.updateArticle(this.AllArticles);
-      console.log(this.AllArticles);
+      // console.log(this.AllArticles);
     });
   }
 
@@ -101,6 +109,7 @@ export class AllarticlesComponent implements OnInit {
     this.sort = "asc";
     this.search= this.route.snapshot.params['search'];
     this.router.navigate(['allarticles', this.search, this.sort,this.page, '0']);
+    this.search = '';
     this.AllArticles = this.AllArticles.sort((a:any,b:any)=>{
       return a.publishedAt.localeCompare(b.publishedAt);
     });
@@ -112,6 +121,7 @@ export class AllarticlesComponent implements OnInit {
     this.sort = "desc";
     this.search= this.route.snapshot.params['search'];
     this.router.navigate(['allarticles', this.search, this.sort,this.page, '0']);
+    this.search = '';
     this.AllArticles = this.AllArticles.sort((a:any,b:any)=>{
       return b.publishedAt.localeCompare(a.publishedAt);
     });

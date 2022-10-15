@@ -11,7 +11,7 @@
   </form>
 </div>
 <!-- <button (click)="onSort()">Sort</button> -->
-<div class="sort">
+<div class="sort" *ngIf="!noresult">
   <button (click)="onSortasc()">
   <a><i class="fa fa-sort-amount-asc" aria-hidden="true"></i></a>
   </button>
@@ -19,14 +19,17 @@
   <a><i class="fa fa-sort-amount-desc" aria-hidden="true"></i></a>
   </button>
 </div>
+<div class="noresult">
+  <h1 *ngIf="noresult">No result found </h1>
+</div>
 <div class="row list">
-  <div class="col-md-3">
+  <div class="col-md-3" *ngIf="!noresult">
     <app-newslist [allarticles]="AllArticles"
     [search]="search"
     [sort]="sort"
     ></app-newslist>
   </div>
-  <div class="col-md-9">
+  <div class="col-md-9" *ngIf="!noresult">
    <router-outlet></router-outlet>
   </div>
 </div>

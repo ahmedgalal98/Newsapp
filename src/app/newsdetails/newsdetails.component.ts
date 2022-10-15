@@ -15,6 +15,7 @@ export class NewsdetailsComponent implements  AfterViewInit {
   resultData:any
   article:any= {}
   id = 0;
+  noresult:any;
 
 
   constructor(
@@ -48,10 +49,10 @@ export class NewsdetailsComponent implements  AfterViewInit {
          }else{
          this.article = this.AllArticlesServices.Articles[this.id];
          }
-         console.log(this.article);
        }
        );
     },500);
+
    }
 
 
