@@ -16,6 +16,9 @@ import { FormsModule } from '@angular/forms';
 
 import {NgxPaginationModule} from 'ngx-pagination';
 import { ToparticlesComponent } from './toparticles/toparticles.component';
+import { LoadingComponent } from './loading/loading.component';
+import { FooterComponent } from './footer/footer.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +28,10 @@ import { ToparticlesComponent } from './toparticles/toparticles.component';
     NewslistComponent,
     NewsdetailsComponent,
     NewsitemComponent,
-    ToparticlesComponent
+    ToparticlesComponent,
+    LoadingComponent,
+    FooterComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,
