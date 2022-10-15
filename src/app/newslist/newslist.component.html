@@ -1,0 +1,10 @@
+<div class="row">
+  <div class="col-xs-12">
+    <app-newsitem
+    *ngFor="let article of allarticles|paginate: { itemsPerPage: 10, currentPage: page,totalItems:totalLength} ; let i = index"
+    [article]="article"
+    [index]="i"
+    ></app-newsitem>
+  </div>
+  <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
+</div>

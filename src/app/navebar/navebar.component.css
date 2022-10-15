@@ -1,0 +1,15 @@
+/* .links {
+  display: flex;
+  justify-content: space-between;
+}
+
+.links a {
+  margin: 10px;
+} */
+
+.section
+{
+  display: flex;
+  justify-content: space-between;
+  margin: 0px 50px;
+}

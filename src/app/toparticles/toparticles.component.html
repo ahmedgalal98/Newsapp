@@ -1,0 +1,33 @@
+<div class="search-form ">
+  <form (submit)="onSubmit()">
+    <div class="input-group">
+      <input [(ngModel)]="search" placeholder="title,date,author" type="text" name="search" class="form-control input-lg rounded-pill">
+      <div class="input-group-btn ms-3">
+        <button class="btn btn-lg btn-primary">
+          Search
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+<!-- <button (click)="onSort()">Sort</button> -->
+<div class="sort">
+  <button (click)="onSortasc()">
+  <a><i class="fa fa-sort-amount-asc" aria-hidden="true"></i></a>
+  </button>
+  <button (click)="onSortDesc()">
+  <a><i class="fa fa-sort-amount-desc" aria-hidden="true"></i></a>
+  </button>
+</div>
+<div class="row list">
+  <div class="col-md-3">
+    <app-newslist [allarticles]="AllArticles"
+    [search]="search"
+    [sort]="sort"
+    ></app-newslist>
+  </div>
+  <div class="col-md-9">
+   <router-outlet></router-outlet>
+  </div>
+</div>
+

@@ -1,0 +1,11 @@
+h6 {
+  font-weight: bold;
+}
+.list-group-item{
+
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  margin: 5px 0;
+  padding: 10px;
+}
+
