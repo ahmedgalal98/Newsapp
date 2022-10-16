@@ -39,6 +39,8 @@ export class NewsdetailsComponent implements  AfterViewInit {
   //     );
   // }
   ngAfterViewInit(): void {
+
+    // delay the execution of the code to wait for the data to be loaded
     setTimeout(() => {
      this.route.params
      .subscribe(
