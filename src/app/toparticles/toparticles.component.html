@@ -11,26 +11,34 @@
   </form>
 </div>
 <!-- <button (click)="onSort()">Sort</button> -->
-<div class="sort" *ngIf="!noresult">
-  <button (click)="onSortasc()">
-  <a><i class="fa fa-sort-amount-asc" aria-hidden="true"></i></a>
-  </button>
-  <button (click)="onSortDesc()">
-  <a><i class="fa fa-sort-amount-desc" aria-hidden="true"></i></a>
-  </button>
+<div *ngIf="loading">
+  <div class="sort" *ngIf="!noresult">
+    <button (click)="onSortasc()">
+    <a><i class="fa fa-sort-amount-asc" aria-hidden="true"></i></a>
+    </button>
+    <button (click)="onSortDesc()">
+    <a><i class="fa fa-sort-amount-desc" aria-hidden="true"></i></a>
+    </button>
+  </div>
 </div>
 <div class="noresult">
   <h1 *ngIf="noresult">No result found </h1>
 </div>
+<div class="loading">
+  <h1 *ngIf="!loading">loading....</h1>
+</div>
 <div class="row list">
-  <div class="col-md-3" *ngIf="!noresult">
-    <app-newslist [allarticles]="AllArticles"
-    [search]="search"
-    [sort]="sort"
-    ></app-newslist>
+  <div class="col-md-3">
+    <div *ngIf="loading">
+      <app-newslist *ngIf="!noresult" [allarticles]="AllArticles"
+      [search]="search"
+      [sort]="sort"
+      ></app-newslist>
+    </div>
   </div>
   <div class="col-md-9" *ngIf="!noresult">
-   <router-outlet></router-outlet>
+    <div *ngIf="loading">
+      <router-outlet></router-outlet>
+    </div>
   </div>
 </div>
-

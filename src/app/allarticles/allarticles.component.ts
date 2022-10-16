@@ -10,11 +10,11 @@ import { AllarticleService } from '../service/allarticle.service';
 export class AllarticlesComponent implements OnInit {
   resultData: any = [];
   AllArticles: any = [];
-
   search = '';
   sort = '';
   page = 1;
   noresult: boolean = false;
+  loading : boolean= false;
 
 
   constructor(
@@ -69,6 +69,7 @@ export class AllarticlesComponent implements OnInit {
       }
       // update the article in the service
       this.AllArticlesServices.updateArticle(this.AllArticles);
+      this.loading = true;
     });
 
   }
@@ -76,7 +77,7 @@ export class AllarticlesComponent implements OnInit {
   // onSearch function to search the article
 
   onSubmit() {
-
+    this.loading = false;
     this.page = 1;
 
     // navicate to the url with the search and sort value
@@ -99,6 +100,7 @@ export class AllarticlesComponent implements OnInit {
           }
         );
       }
+      this.AllArticlesServices.updateArticle(this.AllArticles);
       if (this.AllArticles.length == 0) {
         this.noresult = true;
         this.AllArticlesServices.noresult = true;
@@ -106,7 +108,7 @@ export class AllarticlesComponent implements OnInit {
         this.noresult = false;
         this.AllArticlesServices.noresult = false;
       }
-      this.AllArticlesServices.updateArticle(this.AllArticles);
+      this.loading = true;
     });
   }
 

@@ -11,11 +11,12 @@ import { ToparticleService } from '../service/toparticle.service';
 export class ToparticlesComponent implements OnInit {
   resultData: any = [];
   AllArticles: any = [];
-
   search = '';
   sort = '';
   page = 1;
   noresult = false;
+  loading : boolean= false;
+
 
   constructor(
     private topArticleService:ToparticleService,
@@ -70,12 +71,13 @@ export class ToparticlesComponent implements OnInit {
       }
       // update the article in the service
       this.topArticleService.updateArticle(this.AllArticles);
+      this.loading = true;
     });
 
   }
 
   onSubmit() {
-
+    this.loading = false;
     this.page = 1;
     if(this.search == ''){
     this.router.navigate(['toparticles', "a", 'nosort',this.page, '0']);
@@ -99,7 +101,6 @@ export class ToparticlesComponent implements OnInit {
         );
       }
       this.topArticleService.updateArticle(this.AllArticles);
-
       if (this.AllArticles.length == 0) {
         this.noresult = true;
         this.AllArticlesServices.noresult = true;
@@ -107,6 +108,7 @@ export class ToparticlesComponent implements OnInit {
         this.noresult = false;
         this.AllArticlesServices.noresult = false;
       }
+      this.loading = true;
     });
   }
 
