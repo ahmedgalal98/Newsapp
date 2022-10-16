@@ -13,3 +13,23 @@
   justify-content: space-between;
   margin: 0px 50px;
 }
+
+@media (max-width: 768px) {
+  .section {
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .links {
+    flex-direction: column;
+    justify-content: center;
+  }
+  li{
+    display: flex;
+    justify-content: center;
+  }
+  .navbar-header{
+    display: flex;
+    justify-content: center;
+  }
+}
