@@ -25,20 +25,22 @@ export class AllarticlesComponent implements OnInit {
 
 
   ngOnInit(): void {
+
+    // get the search and sort value from the url
     this.route.params.subscribe((params: Params) => {
       this.search = params['search'];
       this.sort = params['sort'];
       this.page = +params['page'];
       this.AllArticlesServices.updatePage(this.page);
-      // console.log(this.search);
     });
 
+    // get the data from the service
     this.AllArticlesServices.getAllArticle().subscribe((result) => {
       this.resultData = result;
+      // check if the search value is not empty
       if (this.search == 'a') {
         this.AllArticles = this.resultData.articles;
         this.search = '';
-        // this.AllArticlesServices.Articles = this.AllArticles;
       } else {
         const regex = new RegExp(`${this.search}`, 'gi');
         this.AllArticles = this.resultData.articles.filter(
@@ -47,6 +49,7 @@ export class AllarticlesComponent implements OnInit {
           }
         );
       }
+      // check if the sort value is not empty
       if (this.sort=="asc"){
         console.log(this.AllArticles);
         this.AllArticles.sort((a:any,b:any)=>{
@@ -64,27 +67,30 @@ export class AllarticlesComponent implements OnInit {
       else{
         this.AllArticlesServices.updateArticle(this.AllArticles);
       }
+      // update the article in the service
       this.AllArticlesServices.updateArticle(this.AllArticles);
     });
 
-    // console.log(this.AllArticlesServices.Articles);
   }
+
+  // onSearch function to search the article
 
   onSubmit() {
 
     this.page = 1;
+
+    // navicate to the url with the search and sort value
     if(this.search == ''){
     this.router.navigate(['allarticles', "a", 'nosort',this.page, '0']);
     }else{
       this.router.navigate(['allarticles', this.search, 'nosort',this.page, '0']);
     }
 
+    // get the data from the service
     this.AllArticlesServices.getAllArticle().subscribe((result) => {
       this.resultData = result;
       if (this.search == '') {
         this.AllArticles = this.resultData.articles;
-        // console.log(this.AllArticles);
-        // this.AllArticlesServices.Articles = this.AllArticles;
       } else {
         const regex = new RegExp(`${this.search}`, 'gi');
         this.AllArticles = this.resultData.articles.filter(
@@ -101,7 +107,6 @@ export class AllarticlesComponent implements OnInit {
         this.AllArticlesServices.noresult = false;
       }
       this.AllArticlesServices.updateArticle(this.AllArticles);
-      // console.log(this.AllArticles);
     });
   }
 
@@ -114,7 +119,6 @@ export class AllarticlesComponent implements OnInit {
       return a.publishedAt.localeCompare(b.publishedAt);
     });
     this.AllArticlesServices.updateArticle(this.AllArticles);
-    console.log(this.page);
   }
 
   onSortDesc(){

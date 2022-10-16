@@ -33,15 +33,15 @@ export class ToparticlesComponent implements OnInit {
       this.sort = params['sort'];
       this.page = +params['page'];
       this.topArticleService.updatePage(this.page);
-      // console.log(this.search);
     });
 
+    // get the data from the service
     this.topArticleService.getAllArticle().subscribe((result) => {
       this.resultData = result;
+      // check if the search value is not empty
       if (this.search == 'a') {
         this.AllArticles = this.resultData.articles;
         this.search = '';
-        // console.log(this.AllArticles);
       } else {
         const regex = new RegExp(`${this.search}`, 'gi');
         this.AllArticles = this.resultData.articles.filter(
@@ -50,6 +50,7 @@ export class ToparticlesComponent implements OnInit {
           }
         );
       }
+      // check if the sort value is not empty
       if (this.sort=="asc"){
         console.log(this.AllArticles);
         this.AllArticles.sort((a:any,b:any)=>{
@@ -67,10 +68,10 @@ export class ToparticlesComponent implements OnInit {
       else{
         this.topArticleService.updateArticle(this.AllArticles);
       }
+      // update the article in the service
       this.topArticleService.updateArticle(this.AllArticles);
     });
 
-    // console.log(this.AllArticlesServices.Articles);
   }
 
   onSubmit() {
