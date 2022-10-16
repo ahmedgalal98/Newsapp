@@ -51,7 +51,7 @@ export class NewsdetailsComponent implements  AfterViewInit {
          }
        }
        );
-    },500);
+    },1000);
 
    }
 

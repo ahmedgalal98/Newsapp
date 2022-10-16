@@ -13,18 +13,35 @@
 
 .card .content{
   padding: 10px;
+  display: inline;
+  justify-content: center;
 }
 
 .card h3 {
   font-size: 20px;
   font-weight: 600;
-  margin: 10px 0;
+  margin: 20px 0;
   color: rgb(74, 74, 190);
 }
 
 .card h4 {
-  margin-top: 15px;
+  margin: 20px 0;
   font-size: 15px;
   font-weight: bold;
   margin: 10px 0;
+}
+
+p{
+  font-size: 15px;
+  font-weight: 400;
+  margin: 30px 0;
+}
+
+span{
+  font-weight: bold;
+  margin-left: 10px;
+}
+
+i{
+color: rgb(74, 74, 190);
 }

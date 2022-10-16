@@ -12,9 +12,9 @@
       <h3>{{ article.title }}</h3>
       <h4>{{ article.description }}</h4>
       <p>{{ article.content }}</p>
-      <span>by : {{article.author}}</span>
+      <i class="fa fa-pencil" aria-hidden="true"></i><span>{{article.author}}</span>
       <br>
-      <span>{{article.publishedAt}}</span>
+      <i class="fa fa-clock-o" aria-hidden="true"></i><span>{{article.publishedAt | date:'fullDate'}}</span>
 
 
     </div>
