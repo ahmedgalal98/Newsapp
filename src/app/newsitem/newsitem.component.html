@@ -1,6 +1,7 @@
 <a
   style="cursor: pointer;"
   [routerLink]="[index+(page-1)*10]"
+  [queryParams]="{title: title, author: author, sort: sort,date:date}"
   routerLinkActive="active"
   class="list-group-item clearfix">
   <div class="pull-left">

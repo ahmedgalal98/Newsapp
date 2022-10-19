@@ -16,6 +16,7 @@ export class NewsdetailsComponent implements  AfterViewInit {
   article:any= {}
   id = 0;
   noresult:any;
+  noarticle:boolean = false;
 
 
   constructor(
@@ -40,7 +41,7 @@ export class NewsdetailsComponent implements  AfterViewInit {
   // }
   ngAfterViewInit(): void {
 
-    // delay the execution of the code to wait for the data to be loaded
+    // delay the execution of the code waiting for the data to be loaded
     setTimeout(() => {
      this.route.params
      .subscribe(

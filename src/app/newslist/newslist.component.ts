@@ -12,10 +12,11 @@ import { Router,ActivatedRoute } from '@angular/router';
 export class NewslistComponent implements OnInit {
 
   @Input() allarticles:any = []
-  @Input() search:any = ''
+  @Input() author:any = '';
+  @Input() title = '';
   @Input() sort:any = ''
-  // @Input() page:number = 0;
-  page:number = 1;
+  @Input() date: any;
+  @Input() page:any= 1 ;
 
   totalLength:any;
 
@@ -29,30 +30,56 @@ export class NewslistComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    if(this.AllArticlesServices.type == 'top'){
-      this.page = this.TopArticlesServices.page;
-    }else{
-    this.page = this.AllArticlesServices.page;}
+    console.log(this.page)
+  //   if(this.AllArticlesServices.type == 'top'){
+  //     this.page = this.TopArticlesServices.page;
+  //   }else{
+  //   this.page = this.AllArticlesServices.page;
+  // }
     this.totalLength = this.allarticles.length;
-    // console.log(this.page);
-    console.log(this.allarticles)
   }
 
 pageChanged(event:any){
+
+    this.page = event;
+    this.title= this.route.snapshot.queryParams['title'];
+    this.author= this.route.snapshot.queryParams['author'];
+    this.sort= this.route.snapshot.queryParams['sort'];
+
+    this.title= undefined?'':this.title;
+    this.author= undefined?'':this.author;
+    this.sort= undefined?'':this.sort;
+
   if(this.AllArticlesServices.type == 'top'){
     this.TopArticlesServices.updatePage(event);
-    this.search= this.route.snapshot.params['search'];
-  this.page = event;
-  this.router.navigate(['toparticles', this.search, this.sort,this.page, (this.page-1)*10]);
+
+    this.router.navigate(['toparticles',this.page,(this.page-1)*10], {
+      queryParams: {
+        title: this.title,
+        author: this.author,
+        sort: this.sort,
+        date: this.date
+
+      },
+    });
+
+    // this.router.navigate(['toparticles', this.search, this.sort,this.page, (this.page-1)*10]);
     // if (this.search == '') {
     //   this.router.navigate(['toparticles',":search",this.sort,this.page]);
     // }
   }
   else{
   this.AllArticlesServices.updatePage(event);
-    this.search= this.route.snapshot.params['search'];
-  this.page = event;
-   this.router.navigate(['allarticles', this.search, this.sort,this.page, (this.page-1)*10]);
+  //  this.router.navigate(['allarticles', this.search, this.sort,this.page, (this.page-1)*10]);
+
+  this.router.navigate(['allarticles',this.page,(this.page-1)*10], {
+    queryParams: {
+      title: this.title,
+      author: this.author,
+      sort: this.sort,
+      date : this.date
+    },
+  });
   }
 }
 

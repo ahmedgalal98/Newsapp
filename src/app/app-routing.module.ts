@@ -6,16 +6,16 @@ import { ToparticlesComponent } from './toparticles/toparticles.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 
 const routes: Routes = [
-  {path: '', redirectTo: 'allarticles/a/nosort/1', pathMatch: 'full'},
+  {path: '', redirectTo: 'allarticles/1', pathMatch: 'full'},
   {
-    path: 'allarticles/:search/:sort/:page', component: AllarticlesComponent,
+    path: 'allarticles/:page', component: AllarticlesComponent,
     children: [
       {path: '',  redirectTo: '0', pathMatch: 'full'},
       {path: ':id', component: NewsdetailsComponent}
     ]
   },
   {
-    path:'toparticles/:search/:sort/:page', component: ToparticlesComponent,
+    path:'toparticles/:page', component: ToparticlesComponent,
     children: [
       {path: '',  redirectTo: '0', pathMatch: 'full'},
       {path: ':id', component: NewsdetailsComponent}

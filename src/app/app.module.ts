@@ -31,7 +31,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
     ToparticlesComponent,
     LoadingComponent,
     FooterComponent,
-    NotFoundComponent
+    NotFoundComponent,
   ],
   imports: [
     BrowserModule,

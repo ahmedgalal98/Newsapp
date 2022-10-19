@@ -1,11 +1,18 @@
 <div class="search-form ">
   <form (submit)="onSubmit()">
     <div class="input-group">
-      <input [(ngModel)]="search" placeholder="title,date,author" type="text" name="search" class="form-control input-lg rounded-pill">
-      <div class="input-group-btn ms-3">
-        <button class="btn btn-lg btn-primary">
+      <input [(ngModel)]="author" placeholder="author" type="text" name="search" class="form-control input-lg rounded-pill">
+      <input [(ngModel)]="title" placeholder="title" type="text" name="search" class="form-control input-lg rounded-pill">
+      <input [(ngModel)]="date" type="date" id="date" name="date" >
+      <div class="input-group-btn button ms-3">
+        <button class="btn btn-red">
           Search
         </button>
+        <div class="btn-red reset" (click)="reset()">
+         <a style="cursor: pointer;">
+          <i class="fa fa-refresh" aria-hidden="true"></i>
+         </a>
+        </div>
       </div>
     </div>
   </form>
@@ -31,8 +38,11 @@
   <div class="col-md-3">
     <div *ngIf="loading">
       <app-newslist *ngIf="!noresult" [allarticles]="AllArticles"
-      [search]="search"
       [sort]="sort"
+      [title]="title"
+      [author]="author"
+      [date]="date"
+      [page]="page"
       ></app-newslist>
     </div>
   </div>

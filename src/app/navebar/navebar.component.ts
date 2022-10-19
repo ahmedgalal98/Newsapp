@@ -19,10 +19,10 @@ export class NavebarComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.AllArticlesServices.getAllArticle().subscribe((data)=>{
-      this.allArticalldata = data;
-    }
-    )
+    // this.AllArticlesServices.getAllArticle().subscribe((data)=>{
+    //   this.allArticalldata = data;
+    // }
+    //)
   }
 
   allArticles(){

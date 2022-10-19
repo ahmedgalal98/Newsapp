@@ -1,4 +1,4 @@
-<div class="card ">
+<div class="card">
   <div class="row">
     <div class="col-xs-12">
       <img
@@ -11,7 +11,7 @@
     <div class="col-xs-12">
       <h3>{{ article.title }}</h3>
       <h4>{{ article.description }}</h4>
-      <p>{{ article.content }}</p>
+      <p [innerHTML] = "article.content"></p>
       <i class="fa fa-pencil" aria-hidden="true"></i><span>{{article.author}}</span>
       <br>
       <i class="fa fa-clock-o" aria-hidden="true"></i><span>{{article.publishedAt | date:'fullDate'}}</span>

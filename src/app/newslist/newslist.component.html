@@ -1,6 +1,11 @@
 <div class="row">
   <div class="col-xs-12">
     <app-newsitem
+    [title]="title"
+    [author]="author"
+    [sort]="sort"
+    [page]="page"
+    [date]="date"
     *ngFor="let article of allarticles|paginate: { itemsPerPage: 10, currentPage: page,totalItems:totalLength} ; let i = index"
     [article]="article"
     [index]="i"

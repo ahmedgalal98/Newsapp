@@ -11,11 +11,13 @@ export class AllarticlesComponent implements OnInit {
   resultData: any = [];
   AllArticles: any = [];
   search = '';
-  sort = '';
+  sort : any;
   page = 1;
+  date: any;
+  title: any;
+  author: any;
   noresult: boolean = false;
-  loading : boolean= false;
-
+  loading: boolean = false;
 
   constructor(
     private AllArticlesServices: AllarticleService,
@@ -23,55 +25,70 @@ export class AllarticlesComponent implements OnInit {
     private router: Router
   ) {}
 
-
   ngOnInit(): void {
-
-    // get the search and sort value from the url
-    this.route.params.subscribe((params: Params) => {
-      this.search = params['search'];
+    // get title,date,author and sort value from the url
+    this.route.queryParams.subscribe((params: Params) => {
+      this.title = params['title'];
+      this.date = params['date'];
+      this.author = params['author'];
       this.sort = params['sort'];
+      // this.AllArticlesServices.updatePage(this.page);
+    });
+
+    this.route.params.subscribe((params: Params) => {
       this.page = +params['page'];
+      console.log(this.page);
       this.AllArticlesServices.updatePage(this.page);
     });
+
+    this.title == undefined ? '' : this.title;
+    this.author == undefined ? '' : this.author;
+    this.sort == undefined ? '' : this.sort;
+    this.date == undefined ? '' : this.date;
 
     // get the data from the service
     this.AllArticlesServices.getAllArticle().subscribe((result) => {
       this.resultData = result;
-      // check if the search value is not empty
-      if (this.search == 'a') {
-        this.AllArticles = this.resultData.articles;
-        this.search = '';
-      } else {
-        const regex = new RegExp(`${this.search}`, 'gi');
-        this.AllArticles = this.resultData.articles.filter(
-          (item: any) => {
-            return item.title.match(regex) || item.author.match(regex) || item.publishedAt.match(regex);
-          }
-        );
+      this.AllArticles = this.resultData.articles;
+      if (this.title) {
+        const regex = new RegExp(`${this.title}`, 'gi');
+        this.AllArticles = this.AllArticles.filter((item: any) => {
+          return item.title?.match(regex);
+        });
+      }
+      if (this.date) {
+        const regex = new RegExp(`${this.date}`, 'gi');
+        this.AllArticles = this.AllArticles.filter((item: any) => {
+          return item.publishedAt?.match(regex);
+        });
+      }
+      if (this.author) {
+        const regex = new RegExp(`${this.author}`, 'gi');
+        this.AllArticles = this.AllArticles.filter((item: any) => {
+          return item.author?.match(regex);
+        });
       }
       // check if the sort value is not empty
-      if (this.sort=="asc"){
+      if (this.sort == 'asc') {
         console.log(this.AllArticles);
-        this.AllArticles.sort((a:any,b:any)=>{
+        this.AllArticles.sort((a: any, b: any) => {
           return a.publishedAt.localeCompare(b.publishedAt);
         });
         console.log(this.AllArticles);
         this.AllArticlesServices.updateArticle(this.AllArticles);
       }
-      else if (this.sort=="desc"){
-        this.AllArticles = this.AllArticles.sort((a:any,b:any)=>{
+      else if (this.sort == 'desc') {
+        this.AllArticles = this.AllArticles.sort((a: any, b: any) => {
           return b.publishedAt.localeCompare(a.publishedAt);
         });
         this.AllArticlesServices.updateArticle(this.AllArticles);
-      }
-      else{
+      } else {
         this.AllArticlesServices.updateArticle(this.AllArticles);
       }
       // update the article in the service
       this.AllArticlesServices.updateArticle(this.AllArticles);
       this.loading = true;
     });
-
   }
 
   // onSearch function to search the article
@@ -79,32 +96,63 @@ export class AllarticlesComponent implements OnInit {
   onSubmit() {
     this.loading = false;
     this.page = 1;
+    this.title == undefined ? '' : this.title;
+    this.author == undefined ? '' : this.author;
+    this.sort == undefined ? '' : this.sort;
+    this.date == undefined ? '' : this.date;
 
     // navicate to the url with the search and sort value
-    if(this.search == ''){
-    this.router.navigate(['allarticles', "a", 'nosort',this.page, '0']);
-    }else{
-      this.router.navigate(['allarticles', this.search, 'nosort',this.page, '0']);
-    }
+    // if(this.search == ''){
+    // this.router.navigate(['allarticles', "a", 'nosort',this.page, '0']);
+    // }else{
+    //   this.router.navigate(['allarticles', this.search, 'nosort',this.page, '0']);
+    // }
+
+    this.router.navigate(['allarticles', this.page, 0], {
+      queryParams: {
+        title: this.title,
+        author: this.author,
+        sort: this.sort,
+        date: this.date,
+      },
+    });
 
     // get the data from the service
     this.AllArticlesServices.getAllArticle().subscribe((result) => {
       this.resultData = result;
-      if (this.search == '') {
-        this.AllArticles = this.resultData.articles;
-      } else {
-        const regex = new RegExp(`${this.search}`, 'gi');
-        this.AllArticles = this.resultData.articles.filter(
-          (item: any) => {
-            return item.title.match(regex) || item.author.match(regex) || item.publishedAt.match(regex);
-          }
-        );
+      this.AllArticles = this.resultData.articles;
+
+      if (this.title) {
+        const regex = new RegExp(`${this.title}`, 'gi');
+        this.AllArticles = this.AllArticles.filter((item: any) => {
+          return item.title?.match(regex);
+        });
       }
+      if (this.date) {
+        const regex = new RegExp(`${this.date}`, 'gi');
+        this.AllArticles = this.AllArticles.filter((item: any) => {
+          return item.publishedAt?.match(regex);
+        });
+      }
+      if (this.author) {
+        const regex = new RegExp(`${this.author}`, 'gi');
+        this.AllArticles = this.AllArticles.filter((item: any) => {
+          return item.author?.match(regex);
+        });
+      }
+
+      // const regex = new RegExp(`${this.search}`, 'gi');
+      // this.AllArticles = this.resultData.articles.filter(
+      //   (item: any) => {
+      //     return item.title.match(regex) || item.author.match(regex) || item.publishedAt.match(regex);
+      //   }
+      // );
       this.AllArticlesServices.updateArticle(this.AllArticles);
+
       if (this.AllArticles.length == 0) {
         this.noresult = true;
         this.AllArticlesServices.noresult = true;
-      }else{
+      } else {
         this.noresult = false;
         this.AllArticlesServices.noresult = false;
       }
@@ -112,26 +160,47 @@ export class AllarticlesComponent implements OnInit {
     });
   }
 
-  onSortasc(){
-    this.sort = "asc";
-    this.search= this.route.snapshot.params['search'];
-    this.router.navigate(['allarticles', this.search, this.sort,this.page, '0']);
-    this.search = '';
-    this.AllArticles = this.AllArticles.sort((a:any,b:any)=>{
+  reset(){
+    this.title = undefined;
+    this.author = undefined;
+    this.date = undefined;
+    this.sort =   undefined;
+    this.onSubmit();
+  }
+
+  onSortasc() {
+    this.page = 1;
+    this.sort = 'asc';
+    this.router.navigate(['allarticles', this.page, 0], {
+      queryParams: {
+        title: this.title,
+        author: this.author,
+        sort: this.sort,
+        date: this.date,
+      },
+    });
+    // this.search = '';
+    this.AllArticles = this.AllArticles.sort((a: any, b: any) => {
       return a.publishedAt.localeCompare(b.publishedAt);
     });
     this.AllArticlesServices.updateArticle(this.AllArticles);
   }
 
-  onSortDesc(){
-    this.sort = "desc";
-    this.search= this.route.snapshot.params['search'];
-    this.router.navigate(['allarticles', this.search, this.sort,this.page, '0']);
-    this.search = '';
-    this.AllArticles = this.AllArticles.sort((a:any,b:any)=>{
+  onSortDesc() {
+    this.page = 1;
+    this.sort = 'desc';
+    this.router.navigate(['allarticles', this.page, 0], {
+      queryParams: {
+        title: this.title,
+        author: this.author,
+        sort: this.sort,
+        date: this.date,
+      },
+    });
+    // this.search = '';
+    this.AllArticles = this.AllArticles.sort((a: any, b: any) => {
       return b.publishedAt.localeCompare(a.publishedAt);
     });
     this.AllArticlesServices.updateArticle(this.AllArticles);
   }
-
 }
