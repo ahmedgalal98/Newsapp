@@ -15,8 +15,8 @@ export class NewsdetailsComponent implements  AfterViewInit {
   resultData:any
   article:any= {}
   id = 0;
-  noresult:any;
-  noarticle:boolean = false;
+
+
 
 
   constructor(
@@ -55,7 +55,6 @@ export class NewsdetailsComponent implements  AfterViewInit {
        }
        );
     },1000);
-
    }
 
 

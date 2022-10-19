@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card" *ngIf="article">
   <div class="row">
     <div class="col-xs-12">
       <img
@@ -21,3 +21,4 @@
   </div>
 </div>
 
+<app-not-found *ngIf="!article"></app-not-found>

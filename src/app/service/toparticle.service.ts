@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 export class ToparticleService {
   Articles: any;
   page = 1;
+  noarticle: any;
 
 
 
@@ -25,6 +26,10 @@ export class ToparticleService {
   }
   updatePage(page: number){
     this.page = page;
+  }
+
+  updateNoarticle(noarticle: any){
+    this.noarticle = noarticle;
   }
 
 }

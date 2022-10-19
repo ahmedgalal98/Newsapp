@@ -151,10 +151,10 @@ export class AllarticlesComponent implements OnInit {
 
       if (this.AllArticles.length == 0) {
         this.noresult = true;
-        this.AllArticlesServices.noresult = true;
+        // this.AllArticlesServices.noresult = true;
       } else {
         this.noresult = false;
-        this.AllArticlesServices.noresult = false;
+        // this.AllArticlesServices.noresult = false;
       }
       this.loading = true;
     });
