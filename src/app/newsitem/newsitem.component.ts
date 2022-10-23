@@ -2,6 +2,7 @@ import { Component, OnInit,Input } from '@angular/core';
 import { AllarticleService } from '../service/allarticle.service';
 import {ToparticleService} from '../service/toparticle.service';
 import { Article } from '../Article';
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-newsitem',
   templateUrl: './newsitem.component.html',
@@ -14,11 +15,12 @@ export class NewsitemComponent implements OnInit {
   @Input() author:any = '';
   @Input() title = '';
   @Input() sort = ''
-  @Input() date =''
+  @Input() date ='';
+  selectedQueryParams: any;
 
    constructor(
     private AllArticlesServices: AllarticleService,
-    private TopArticlesServices: ToparticleService,
+    private TopArticlesServices: ToparticleService, private activatedLink: ActivatedRoute
   ) { }
 
 
@@ -29,6 +31,7 @@ export class NewsitemComponent implements OnInit {
     // this.page = this.AllArticlesServices.page;
     // }
     // console.log(this.page);
+    this.selectedQueryParams = this.activatedLink.snapshot.queryParams;
     console.log(this.article);
   }
 

@@ -18,6 +18,7 @@ export class AllarticlesComponent implements OnInit {
   author: any;
   noresult: boolean = false;
   loading: boolean = false;
+  id:any = 0;
 
   constructor(
     private AllArticlesServices: AllarticleService,
@@ -28,23 +29,14 @@ export class AllarticlesComponent implements OnInit {
   ngOnInit(): void {
     // get title,date,author and sort value from the url
     this.route.queryParams.subscribe((params: Params) => {
-      this.title = params['title'];
-      this.date = params['date'];
-      this.author = params['author'];
-      this.sort = params['sort'];
-      // this.AllArticlesServices.updatePage(this.page);
+      this.title = params['title']? params['title']:'';
+      this.date = params['date']? params['date']:'';
+      this.author = params['author']? params['author'] : '';
+      this.sort = params['sort']? params['sort'] : '';
+      this.page = +params['page']? +params['page'] : 1;
+
     });
 
-    this.route.params.subscribe((params: Params) => {
-      this.page = +params['page'];
-      console.log(this.page);
-      this.AllArticlesServices.updatePage(this.page);
-    });
-
-    this.title == undefined ? '' : this.title;
-    this.author == undefined ? '' : this.author;
-    this.sort == undefined ? '' : this.sort;
-    this.date == undefined ? '' : this.date;
 
     // get the data from the service
     this.AllArticlesServices.getAllArticle().subscribe((result) => {
@@ -87,6 +79,11 @@ export class AllarticlesComponent implements OnInit {
       }
       // update the article in the service
       this.AllArticlesServices.updateArticle(this.AllArticles);
+      // let selectedParams = this.route.snapshot.queryParams;
+      // if(this.id == undefined){
+
+      //   this.router.navigate([0],{queryParams: selectedParams, relativeTo: this.route});
+      // }
       this.loading = true;
     });
   }
@@ -101,21 +98,7 @@ export class AllarticlesComponent implements OnInit {
     this.sort == undefined ? '' : this.sort;
     this.date == undefined ? '' : this.date;
 
-    // navicate to the url with the search and sort value
-    // if(this.search == ''){
-    // this.router.navigate(['allarticles', "a", 'nosort',this.page, '0']);
-    // }else{
-    //   this.router.navigate(['allarticles', this.search, 'nosort',this.page, '0']);
-    // }
-
-    this.router.navigate(['allarticles', this.page, 0], {
-      queryParams: {
-        title: this.title,
-        author: this.author,
-        sort: this.sort,
-        date: this.date,
-      },
-    });
+    this.clearQueryParams();
 
     // get the data from the service
     this.AllArticlesServices.getAllArticle().subscribe((result) => {
@@ -171,14 +154,7 @@ export class AllarticlesComponent implements OnInit {
   onSortasc() {
     this.page = 1;
     this.sort = 'asc';
-    this.router.navigate(['allarticles', this.page, 0], {
-      queryParams: {
-        title: this.title,
-        author: this.author,
-        sort: this.sort,
-        date: this.date,
-      },
-    });
+    this.clearQueryParams();
     // this.search = '';
     this.AllArticles = this.AllArticles.sort((a: any, b: any) => {
       return a.publishedAt.localeCompare(b.publishedAt);
@@ -189,18 +165,44 @@ export class AllarticlesComponent implements OnInit {
   onSortDesc() {
     this.page = 1;
     this.sort = 'desc';
-    this.router.navigate(['allarticles', this.page, 0], {
-      queryParams: {
-        title: this.title,
-        author: this.author,
-        sort: this.sort,
-        date: this.date,
-      },
-    });
+
+    this.clearQueryParams();
     // this.search = '';
     this.AllArticles = this.AllArticles.sort((a: any, b: any) => {
       return b.publishedAt.localeCompare(a.publishedAt);
     });
     this.AllArticlesServices.updateArticle(this.AllArticles);
   }
+
+  clearQueryParams() {
+
+    let queryParams = Object.assign({}, this.route.snapshot.queryParams);
+    if(this.title)
+      queryParams['title'] = this.title;
+    else
+      delete queryParams['title'];
+
+      if(this.author)
+      queryParams['author'] = this.author;
+    else
+      delete queryParams['author'];
+
+      if(this.sort)
+      queryParams['sort'] = this.sort;
+    else
+      delete queryParams['sort'];
+
+      if(this.date)
+      queryParams['date'] = this.date;
+    else
+      delete queryParams['date'];
+
+      if(this.page)
+      queryParams['page'] = this.page;
+    else
+      delete queryParams['page'];
+    this.router.navigate(['allarticles', 0], {
+      queryParams: queryParams});
+  }
+
 }

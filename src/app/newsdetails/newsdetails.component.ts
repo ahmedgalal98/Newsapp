@@ -42,7 +42,7 @@ export class NewsdetailsComponent implements  AfterViewInit {
   ngAfterViewInit(): void {
 
     // delay the execution of the code waiting for the data to be loaded
-    setTimeout(() => {
+
      this.route.params
      .subscribe(
        (params: Params) => {
@@ -52,10 +52,11 @@ export class NewsdetailsComponent implements  AfterViewInit {
          }else{
          this.article = this.AllArticlesServices.Articles[this.id];
          }
+
        }
        );
-    },1000);
-   }
+      }
+
 
 
 }

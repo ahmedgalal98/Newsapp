@@ -46,6 +46,7 @@ pageChanged(event:any){
     this.author= this.route.snapshot.queryParams['author'];
     this.sort= this.route.snapshot.queryParams['sort'];
 
+
     this.title= undefined?'':this.title;
     this.author= undefined?'':this.author;
     this.sort= undefined?'':this.sort;
@@ -53,12 +54,13 @@ pageChanged(event:any){
   if(this.AllArticlesServices.type == 'top'){
     this.TopArticlesServices.updatePage(event);
 
-    this.router.navigate(['toparticles',this.page,(this.page-1)*10], {
+    this.router.navigate(['toparticles',(this.page-1)*10], {
       queryParams: {
         title: this.title,
         author: this.author,
         sort: this.sort,
-        date: this.date
+        date: this.date,
+        page: this.page
 
       },
     });
@@ -72,12 +74,13 @@ pageChanged(event:any){
   this.AllArticlesServices.updatePage(event);
   //  this.router.navigate(['allarticles', this.search, this.sort,this.page, (this.page-1)*10]);
 
-  this.router.navigate(['allarticles',this.page,(this.page-1)*10], {
+  this.router.navigate(['allarticles',(this.page-1)*10], {
     queryParams: {
       title: this.title,
       author: this.author,
       sort: this.sort,
-      date : this.date
+      date : this.date,
+      page: this.page
     },
   });
   }

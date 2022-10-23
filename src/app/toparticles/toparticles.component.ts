@@ -6,13 +6,13 @@ import { ToparticleService } from '../service/toparticle.service';
 @Component({
   selector: 'app-toparticles',
   templateUrl: './toparticles.component.html',
-  styleUrls: ['./toparticles.component.css']
+  styleUrls: ['./toparticles.component.css'],
 })
 export class ToparticlesComponent implements OnInit {
   resultData: any = [];
   AllArticles: any = [];
   search = '';
-  sort : any;
+  sort: any;
   page = 1;
   date: any;
   title: any;
@@ -20,37 +20,28 @@ export class ToparticlesComponent implements OnInit {
   noresult: boolean = false;
   loading: boolean = false;
 
-
   constructor(
-    private topArticleService:ToparticleService,
+    private topArticleService: ToparticleService,
     private AllArticlesServices: AllarticleService,
     private route: ActivatedRoute,
     private router: Router
   ) {}
 
-
   ngOnInit(): void {
+    this.AllArticlesServices.type = 'top';
+    // get title,date,author and sort value from the url
+    this.route.queryParams.subscribe((params: Params) => {
+      this.title = params['title'];
+      this.date = params['date'];
+      this.author = params['author'];
+      this.sort = params['sort'];
+      this.page = +params['page'] ? +params['page'] : 1;
+    });
 
-    this.AllArticlesServices.type = "top";
-   // get title,date,author and sort value from the url
-   this.route.queryParams.subscribe((params: Params) => {
-    this.title = params['title'];
-    this.date = params['date'];
-    this.author = params['author'];
-    this.sort = params['sort'];
-    // this.AllArticlesServices.updatePage(this.page);
-  });
-
-  this.route.params.subscribe((params: Params) => {
-    this.page = +params['page'];
-    console.log(this.page);
-     this.topArticleService.updatePage(this.page);
-  });
-
-    this.title == undefined ? '' : this.title;
-    this.author == undefined ? '' : this.author;
-    this.sort == undefined ? '' : this.sort;
-    this.date == undefined ? '' : this.date;
+    // this.title == undefined ? '' : this.title;
+    // this.author == undefined ? '' : this.author;
+    // this.sort == undefined ? '' : this.sort;
+    // this.date == undefined ? '' : this.date;
 
     // get the data from the service
     this.topArticleService.getAllArticle().subscribe((result) => {
@@ -75,28 +66,30 @@ export class ToparticlesComponent implements OnInit {
         });
       }
       // check if the sort value is not empty
-      if (this.sort=="asc"){
+      if (this.sort == 'asc') {
         console.log(this.AllArticles);
-        this.AllArticles.sort((a:any,b:any)=>{
+        this.AllArticles.sort((a: any, b: any) => {
           return a.publishedAt.localeCompare(b.publishedAt);
         });
         console.log(this.AllArticles);
         this.topArticleService.updateArticle(this.AllArticles);
-      }
-      else if (this.sort=="desc"){
-        this.AllArticles = this.AllArticles.sort((a:any,b:any)=>{
+      } else if (this.sort == 'desc') {
+        this.AllArticles = this.AllArticles.sort((a: any, b: any) => {
           return b.publishedAt.localeCompare(a.publishedAt);
         });
         this.topArticleService.updateArticle(this.AllArticles);
-      }
-      else{
+      } else {
         this.topArticleService.updateArticle(this.AllArticles);
       }
       // update the article in the service
       this.topArticleService.updateArticle(this.AllArticles);
+      let selectedParams = this.route.snapshot.queryParams;
+      this.router.navigate([0], {
+        queryParams: selectedParams,
+        relativeTo: this.route,
+      });
       this.loading = true;
     });
-
   }
 
   onSubmit() {
@@ -109,14 +102,7 @@ export class ToparticlesComponent implements OnInit {
 
     //toparticles
 
-   this.router.navigate(['toparticles', this.page, 0], {
-      queryParams: {
-        title: this.title,
-        author: this.author,
-        sort: this.sort,
-        date: this.date,
-      },
-    });
+   this.clearQueryParams();
 
     this.topArticleService.getAllArticle().subscribe((result) => {
       this.resultData = result;
@@ -146,7 +132,7 @@ export class ToparticlesComponent implements OnInit {
       if (this.AllArticles.length == 0) {
         this.noresult = true;
         this.AllArticlesServices.noresult = true;
-      }else{
+      } else {
         this.noresult = false;
         this.AllArticlesServices.noresult = false;
       }
@@ -154,49 +140,67 @@ export class ToparticlesComponent implements OnInit {
     });
   }
 
-  reset(){
+  reset() {
     this.title = undefined;
     this.author = undefined;
     this.date = undefined;
-    this.sort =   undefined;
+    this.sort = undefined;
     this.onSubmit();
   }
 
   //toparticles
-  onSortasc(){
+  onSortasc() {
     this.page = 1;
-    this.sort = "asc";
-    this.router.navigate(['toparticles', this.page, 0], {
-      queryParams: {
-        title: this.title,
-        author: this.author,
-        sort: this.sort,
-        date: this.date,
-      },
-    });
+    this.sort = 'asc';
+   this.clearQueryParams();
 
-    this.AllArticles = this.AllArticles.sort((a:any,b:any)=>{
+    this.AllArticles = this.AllArticles.sort((a: any, b: any) => {
       return a.publishedAt.localeCompare(b.publishedAt);
     });
     this.topArticleService.updateArticle(this.AllArticles);
     console.log(this.page);
   }
 
-  onSortDesc(){
+  onSortDesc() {
     this.page = 1;
-    this.sort = "desc";
-    this.router.navigate(['toparticles', this.page, 0], {
-      queryParams: {
-        title: this.title,
-        author: this.author,
-        sort: this.sort,
-        date: this.date,
-      },
-    });
-    this.AllArticles = this.AllArticles.sort((a:any,b:any)=>{
+    this.sort = 'desc';
+
+    this.clearQueryParams();
+
+    this.AllArticles = this.AllArticles.sort((a: any, b: any) => {
       return b.publishedAt.localeCompare(a.publishedAt);
     });
     this.topArticleService.updateArticle(this.AllArticles);
   }
 
+  clearQueryParams() {
+
+    let queryParams = Object.assign({}, this.route.snapshot.queryParams);
+    if(this.title)
+      queryParams['title'] = this.title;
+    else
+      delete queryParams['title'];
+
+      if(this.author)
+      queryParams['author'] = this.author;
+    else
+      delete queryParams['author'];
+
+      if(this.sort)
+      queryParams['sort'] = this.sort;
+    else
+      delete queryParams['sort'];
+
+      if(this.date)
+      queryParams['date'] = this.date;
+    else
+      delete queryParams['date'];
+
+      if(this.page)
+      queryParams['page'] = this.page;
+    else
+      delete queryParams['page'];
+    this.router.navigate(['toparticles', 0], {
+      queryParams: queryParams});
+  }
 }
